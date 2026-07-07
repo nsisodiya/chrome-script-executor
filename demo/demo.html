@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScriptForge - Interactive Testbed & Sandbox</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <div class="sandbox-container">
+    <!-- Header -->
+    <header class="sandbox-header">
+      <div class="header-logo">
+        <span class="logo-lightning">⚡</span>
+        <div>
+          <h1>ScriptForge Sandbox</h1>
+          <p class="subtitle">Interactive Script Creation, Capture & Testbed</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="tip-badge">Tip</span>
+        <span>Open the extension popup or press <kbd>Alt+Shift+S</kbd> to run captured scripts!</span>
+      </div>
+    </header>
+
+    <div class="sandbox-layout">
+      <!-- Left Column: Script Creator (Source) -->
+      <section class="panel panel-source">
+        <h2 class="panel-title">1. Script Creator (Source Website)</h2>
+        <p class="panel-desc">
+          Select a template or write custom code, then click <strong>Share with Extension</strong>. 
+          This simulates a website exporting scripts and data to the Chrome Script Executor.
+        </p>
+
+        <!-- Template Selector -->
+        <div class="template-selector">
+          <label>Pre-built Templates:</label>
+          <div class="templates-grid">
+            <button class="btn-template" id="tpl-aesthetics">Aesthetics Changer</button>
+            <button class="btn-template" id="tpl-logger">Custom Event Logger</button>
+            <button class="btn-template" id="tpl-table">Price Highlighter</button>
+          </div>
+        </div>
+
+        <form id="creator-form" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="script-title">Script Title</label>
+              <input type="text" id="script-title" placeholder="e.g., Change Background Color" required>
+            </div>
+            <div class="form-group flex-1">
+              <label for="script-context">Context</label>
+              <select id="script-context">
+                <option value="isolated" selected>Isolated World</option>
+                <option value="main">Page Context</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="script-pattern">Target URL Pattern</label>
+            <input type="text" id="script-pattern" value="*" placeholder="e.g., *://*.github.com/* or *" required>
+          </div>
+
+          <div class="form-group">
+            <label for="script-code">JavaScript Code</label>
+            <textarea id="script-code" class="code-editor" placeholder="// Write script here...&#10;console.log('Running script');" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="script-json">JSON Context Data</label>
+            <textarea id="script-json" class="code-editor json" placeholder='{&#10;  "key": "value"&#10;}'></textarea>
+            <div class="json-error" id="json-error-msg">✗ Invalid JSON format</div>
+          </div>
+
+          <button type="submit" class="btn-share" id="btn-share-script">
+            Share Script with Extension
+          </button>
+        </form>
+      </section>
+
+      <!-- Right Column: Testbed (Target) -->
+      <section class="panel panel-target">
+        <h2 class="panel-title">2. Execution Testbed (Target Website)</h2>
+        <p class="panel-desc">
+          Execute your captured scripts on this page and observe the changes in real-time. Use the elements below as targets.
+        </p>
+
+        <!-- Element 1: Color Target Box -->
+        <div class="testbed-section">
+          <h3>Target Box Element</h3>
+          <div class="target-box" id="demo-target-box">
+            <div class="target-box-content">
+              <h4>#demo-target-box</h4>
+              <p>Scripts can edit my styling, colors, or transitions.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Element 2: Data Table -->
+        <div class="testbed-section">
+          <h3>Target Table Element (<code>#demo-table</code>)</h3>
+          <table class="testbed-table" id="demo-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#101</td>
+                <td>Premium Mechanical Keyboard</td>
+                <td>$189.99</td>
+                <td><span class="status-pill status-instock">In Stock</span></td>
+              </tr>
+              <tr>
+                <td>#102</td>
+                <td>Ergonomic Mouse</td>
+                <td>$79.50</td>
+                <td><span class="status-pill status-instock">In Stock</span></td>
+              </tr>
+              <tr>
+                <td>#103</td>
+                <td>4K Ultra-Wide Monitor</td>
+                <td>$449.00</td>
+                <td><span class="status-pill status-low">Low Stock</span></td>
+              </tr>
+              <tr>
+                <td>#104</td>
+                <td>USB-C Multipack Cables</td>
+                <td>$15.99</td>
+                <td><span class="status-pill status-instock">In Stock</span></td>
+              </tr>
+              <tr>
+                <td>#105</td>
+                <td>Active Noise Cancelling Headphones</td>
+                <td>$299.99</td>
+                <td><span class="status-pill status-backorder">Backorder</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Element 3: Injected Logger Console -->
+        <div class="testbed-section">
+          <h3>Injected Log Console (<code>#demo-console-output</code>)</h3>
+          <div class="logger-console" id="demo-console-output">
+            <div class="console-placeholder">Logs from executed scripts will render here...</div>
+          </div>
+          <button class="btn-clear-console" id="btn-clear-console-el">Clear Logs</button>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <script src="demo.js"></script>
+</body>
+</html>

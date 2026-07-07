@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Script Executor Dashboard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <span class="logo-icon">⚡</span>
+        <div>
+          <h1>ScriptForge</h1>
+          <p class="subtitle">Chrome Script Executor</p>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-add-tab">Add Script</button>
+    </header>
+
+    <!-- Main Views -->
+    <main class="app-main">
+      <!-- VIEW 1: Dashboard (List of scripts) -->
+      <section class="view active" id="view-dashboard">
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="Search by title, origin or pattern...">
+        </div>
+
+        <div class="scroll-area">
+          <div class="list-section" id="section-recommended">
+            <h2 class="section-title">⚡ Recommended for Current Page</h2>
+            <div class="script-list" id="list-recommended">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <div class="list-section" id="section-all" style="margin-top: 15px;">
+            <h2 class="section-title">All Saved Scripts</h2>
+            <div class="script-list" id="list-all">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: Editor (Add/Edit script) -->
+      <section class="view" id="view-editor">
+        <div class="editor-header">
+          <h2 id="editor-title">Create Script</h2>
+          <button class="btn-text" id="btn-editor-back">← Back</button>
+        </div>
+        
+        <form class="editor-form" id="editor-form" onsubmit="return false;">
+          <input type="hidden" id="edit-script-id">
+          
+          <div class="form-group">
+            <label for="script-title-input">Title</label>
+            <input type="text" id="script-title-input" placeholder="e.g., Highlight Table Rows" required>
+          </div>
+
+          <div class="form-group">
+            <label for="script-pattern-input">Target URL Pattern</label>
+            <input type="text" id="script-pattern-input" placeholder="e.g., *://*.github.com/* or *" required>
+            <small class="form-help">Uses wildcard matches. Use * to match all sites.</small>
+          </div>
+
+          <div class="form-group">
+            <label>Execution Context</label>
+            <div class="toggle-container">
+              <div class="toggle-btn selected" id="toggle-context-isolated" data-value="isolated">Isolated Context</div>
+              <div class="toggle-btn" id="toggle-context-main" data-value="main">Page Context</div>
+            </div>
+            <small class="form-help" id="context-help">Isolated context bypasses page CSP and is highly secure. Page context allows accessing page JS objects.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="script-code-input">JavaScript Code</label>
+            <textarea id="script-code-input" class="code-textarea" placeholder="// Write javascript here...&#10;console.log('JSON data:', contextData);" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="script-data-input">JSON Payload (optional)</label>
+            <textarea id="script-data-input" class="code-textarea json" placeholder='{&#10;  "key": "value"&#10;}'></textarea>
+            <div class="json-validation" id="json-validation-msg">✓ Valid JSON</div>
+          </div>
+
+          <div class="editor-actions">
+            <button type="button" class="btn-secondary" id="btn-editor-cancel">Cancel</button>
+            <button type="submit" class="btn-primary" id="btn-editor-save">Save Script</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <!-- Footer Settings -->
+    <footer class="app-footer">
+      <label class="settings-checkbox">
+        <input type="checkbox" id="setting-floating-badge" checked>
+        <span>Enable Floating Badge</span>
+      </label>
+      <button class="btn-text highlight" id="btn-open-sandbox">Launch Sandbox Testbed</button>
+    </footer>
+    
+    <!-- Toast notifications inside popup -->
+    <div class="popup-toast" id="popup-toast-el"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
